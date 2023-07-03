@@ -26,19 +26,13 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
-loader = TextLoader('doc_class.txt')
-documents = loader.load()
-from langchain.text_splitter import CharacterTextSplitter
-text_splitter = CharacterTextSplitter(
-    chunk_size = 1000,  # チャンクの文字数
-    chunk_overlap = 0,  # チャンクオーバーラップの文字数
-)
-docs = text_splitter.split_documents(documents)
-print(text_splitter)
-print(docs)
+from langchain.document_loaders import PyPDFLoader
+
+loader = PyPDFLoader("doc_class.pdf")
+pages = loader.load_and_split()
 embeddings = OpenAIEmbeddings()
 
-db = FAISS.from_documents(docs, embeddings)
+db = FAISS.from_documents(pages, embeddings)
 query = """以下の文章は本の解説です。この情報をもとにこの本に適した分類項目を番号で１つ示してください
 text: 近代以前できた根室本線は北海道の滝川駅から帯広、釧路を経て根室駅を結ぶＪＲ北海道の路線です。このうち釧路駅から\
     根室駅までの区間は「花咲線」の愛称で呼ばれています。観光シーズンには札幌からのリゾート列車が多数運行されます。キハ283系の車体は、\

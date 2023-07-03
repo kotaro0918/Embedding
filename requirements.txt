@@ -3,4 +3,4 @@ openai
 chromadb
 tiktoken
 faiss-cpu
-nltk
+bs4
