@@ -28,9 +28,14 @@ from langchain.schema import (
 )
 loader = TextLoader('doc_class.txt')
 documents = loader.load()
-text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+from langchain.text_splitter import CharacterTextSplitter
+text_splitter = CharacterTextSplitter(
+    chunk_size = 1000,  # チャンクの文字数
+    chunk_overlap = 0,  # チャンクオーバーラップの文字数
+)
 docs = text_splitter.split_documents(documents)
-
+print(text_splitter)
+print(docs)
 embeddings = OpenAIEmbeddings()
 
 db = FAISS.from_documents(docs, embeddings)
@@ -47,4 +52,4 @@ print(len(embedding_vector))
 chain = load_qa_chain(ChatOpenAI(temperature=0), chain_type="stuff", verbose=True)
 
 # 質問応答の実行
-print(chain({"input_documents": docs_and_scores, "question": query}))
+print(chain({"input_documents": docs_and_scores, "question": query},return_only_outputs=True))
