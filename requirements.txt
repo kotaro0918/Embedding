@@ -4,3 +4,4 @@ chromadb
 tiktoken
 faiss-cpu
 bs4
+pdfminer.six
