@@ -28,10 +28,14 @@ from langchain.schema import (
 )
 from langchain.document_loaders import PyPDFLoader
 
-from langchain.document_loaders import PDFMinerLoader
-loader = PDFMinerLoader("doc_class.pdf")
-data = loader.load()
+from langchain.document_loaders import PDFMinerPDFasHTMLLoader
+loader = PDFMinerPDFasHTMLLoader("doc_class.pdf")
+data = loader.load()[0]
 print(data)
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(data.page_content,'html.parser')
+content = soup.find_all('div')
+print(content)
 embeddings = OpenAIEmbeddings()
 
 db = FAISS.from_documents(data, embeddings)

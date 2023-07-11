@@ -26,30 +26,29 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
+title_input=input()
+target_input=input()
 loader = TextLoader('doc_class.txt')
 documents = loader.load()
-from langchain.text_splitter import CharacterTextSplitter
-text_splitter = CharacterTextSplitter(
-    chunk_size = 1000,  # チャンクの文字数
-    chunk_overlap = 0,  # チャンクオーバーラップの文字数
-)
+text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 docs = text_splitter.split_documents(documents)
-print(text_splitter)
-print(docs)
 embeddings = OpenAIEmbeddings()
 
 db = FAISS.from_documents(docs, embeddings)
-query = """以下の文章は本の解説です。この情報をもとにこの本に適した分類項目を番号で１つ示してください
-text: 近代以前できた根室本線は北海道の滝川駅から帯広、釧路を経て根室駅を結ぶＪＲ北海道の路線です。このうち釧路駅から\
-    根室駅までの区間は「花咲線」の愛称で呼ばれています。観光シーズンには札幌からのリゾート列車が多数運行されます。キハ283系の車体は、\
-    ブルーとグリーンに丹頂鶴の赤を組み合わせ北海道らしさを演出しています."""
+query = f"""以下の文章は地域の暮らしに関して書かれた本の解説とそのタイトルです。この情報をもとにこの本に適した分類項目の候補を3つ数字で示してください
+根拠と一緒に出力してください
+title: {title_input}
+text: {target_input}"""
 embedding_vector = embeddings.embed_query(query)
 docs_and_scores = db.similarity_search_by_vector(embedding_vector)
 
 print(len(embedding_vector))
-
+from langchain.callbacks import get_openai_callback
 # load_qa_chainを準備
-chain = load_qa_chain(ChatOpenAI(temperature=0), chain_type="stuff", verbose=True)
+
+with get_openai_callback() as cb:
+    chain = load_qa_chain(ChatOpenAI(temperature=0), chain_type="stuff", verbose=True)
 
 # 質問応答の実行
-print(chain({"input_documents": docs_and_scores, "question": query},return_only_outputs=True))
+    print(chain({"input_documents": docs_and_scores, "question": query},return_only_outputs=True))
+    print(cb)

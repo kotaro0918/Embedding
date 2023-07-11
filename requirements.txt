@@ -4,4 +4,6 @@ chromadb
 tiktoken
 faiss-cpu
 bs4
+pypdf
 pdfminer.six
+unstructured[local-inference]

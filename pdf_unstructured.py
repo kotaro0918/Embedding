@@ -26,14 +26,17 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
-from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import UnstructuredFileLoader
 target_input=input()
-loader = PyPDFLoader("doc_class.pdf")
-pages = loader.load_and_split()
+loader = UnstructuredFileLoader("doc_class.pdf",mode="elements")
+docs = loader.load()
+print(f"number of docs: {len(docs)}")
+print("--------------------------------------------------")
+print(docs[95].page_content)
 embeddings = OpenAIEmbeddings()
 
-db = FAISS.from_documents(pages, embeddings)
-query = f"""以下の文章は本の解説です。この情報をもとにこの本に適した分類項目を番号で１つ示してください
+db = FAISS.from_documents(docs, embeddings)
+query = f"""以下の文章は本の解説です。この情報をもとにこの本に適した分類項目を三桁の数字で示してください
 text: {target_input}"""
 embedding_vector = embeddings.embed_query(query)
 docs_and_scores = db.similarity_search_by_vector(embedding_vector)
