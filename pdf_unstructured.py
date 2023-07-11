@@ -31,8 +31,6 @@ target_input=input()
 loader = UnstructuredFileLoader("doc_class.pdf",mode="elements")
 docs = loader.load()
 print(f"number of docs: {len(docs)}")
-print("--------------------------------------------------")
-print(docs[95].page_content)
 embeddings = OpenAIEmbeddings()
 
 db = FAISS.from_documents(docs, embeddings)
@@ -42,9 +40,12 @@ embedding_vector = embeddings.embed_query(query)
 docs_and_scores = db.similarity_search_by_vector(embedding_vector)
 
 print(len(embedding_vector))
+from langchain.callbacks import get_openai_callback
 
+with get_openai_callback() as cb:
 # load_qa_chainを準備
-chain = load_qa_chain(ChatOpenAI(temperature=0), chain_type="stuff", verbose=True)
+    chain = load_qa_chain(ChatOpenAI(temperature=0), chain_type="stuff", verbose=True)
 
 # 質問応答の実行
-print(chain({"input_documents": docs_and_scores, "question": query},return_only_outputs=True))
+    print(chain({"input_documents": docs_and_scores, "question": query},return_only_outputs=True))
+    print(cb)
