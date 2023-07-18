@@ -21,16 +21,7 @@ langchain の embedding をpythonで試行した結果報告
 1. 作業用ディレクトリにこのレポジトリをクローンする
 
 1. clone したローカル環境下に　.devcontainer/devcontainer.envのファイルを作り
-```- [Embedding in python](#embedding-in-python)
-  - [langchain をcontainer内で使う準備](#langchain-をcontainer内で使う準備)
-  - [doc\_class.pdf を読み込ませる](#doc_classpdf-を読み込ませる)
-    - [pdfをページごとに分割した場合](#pdfをページごとに分割した場合)
-    - [要素ごとに分割した場合](#要素ごとに分割した場合)
-    - [pdfをHTMLとして読み込む](#pdfをhtmlとして読み込む)
-  - [doc\_class.txt を読み込ませる](#doc_classtxt-を読み込ませる)
-    - [出力を１つに指定した場合と複数に指定した場合](#出力を１つに指定した場合と複数に指定した場合)
-  - [全体を通したまとめ](#全体を通したまとめ)
-
+```
 OPENAI_API_KEY=自分のAPI Key
 ```
 を書き込む     
