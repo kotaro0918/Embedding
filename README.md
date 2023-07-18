@@ -4,7 +4,6 @@ langchain の embedding をpythonで試行した結果報告
 
 
 
-
 - [Embedding in python](#embedding-in-python)
   - [langchain をcontainer内で使う準備](#langchain-をcontainer内で使う準備)
   - [doc\_class.pdf を読み込ませる](#doc_classpdf-を読み込ませる)
@@ -13,6 +12,8 @@ langchain の embedding をpythonで試行した結果報告
     - [pdfをHTMLとして読み込む](#pdfをhtmlとして読み込む)
   - [doc\_class.txt を読み込ませる](#doc_classtxt-を読み込ませる)
     - [出力を１つに指定した場合と複数に指定した場合](#出力を１つに指定した場合と複数に指定した場合)
+  - [CSVを読み込ませた場合](#csvを読み込ませた場合)
+    - [他の方法とに比較](#他の方法とに比較)
   - [全体を通したまとめ](#全体を通したまとめ)
 
 
