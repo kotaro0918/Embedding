@@ -28,13 +28,13 @@ from langchain.schema import (
 )
 from langchain.document_loaders import PyPDFLoader
 target_input=input()
-loader = PyPDFLoader("doc_class.pdf")
+loader = PyPDFLoader("1409128_005_1.pdf")
 pages = loader.load_and_split()
 embeddings = OpenAIEmbeddings()
 
 db = FAISS.from_documents(pages, embeddings)
-query = f"""以下の文章は本の解説です。この情報をもとにこの本に適した分類項目を番号で１つ示してください
-text: {target_input}"""
+query = f"""あなたは与えられた文章に関して1000字程度で文章を書くエージェントです
+医学部不正入試問題に関して1000字程度で記事を書いてください"""
 embedding_vector = embeddings.embed_query(query)
 docs_and_scores = db.similarity_search_by_vector(embedding_vector)
 
