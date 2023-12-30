@@ -33,8 +33,8 @@ pages = loader.load_and_split()
 embeddings = OpenAIEmbeddings()
 
 db = FAISS.from_documents(pages, embeddings)
-query = f"""あなたは与えられた文章に関して1000字程度で文章を書くエージェントです
-医学部不正入試問題に関して1000字程度で記事を書いてください"""
+query = f"""以下の文章は本の解説です。この情報をもとにこの本に適した分類項目を三桁の数字で示してください
+text: {target_input}"""
 embedding_vector = embeddings.embed_query(query)
 docs_and_scores = db.similarity_search_by_vector(embedding_vector)
 
